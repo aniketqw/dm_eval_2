@@ -1,0 +1,11 @@
+Dataset: ercot
+Tier: medium
+Target Column: target
+Workers: 12
+Geometric Mean WQL: nan
+Geometric Mean MASE: nan
+Num Processed Series: 0
+Too Short Count: 0
+Invalid Count: 8
+Processing Time: 30.13s
+Streaming Mode: True

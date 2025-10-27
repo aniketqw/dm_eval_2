@@ -1,0 +1,11 @@
+Dataset: monash_traffic
+Tier: medium
+Target Column: target
+Workers: 12
+Geometric Mean WQL: 0.07811439417422336
+Geometric Mean MASE: 0.3534402434031079
+Num Processed Series: 99
+Too Short Count: 0
+Invalid Count: 1
+Processing Time: 56.42s
+Streaming Mode: False

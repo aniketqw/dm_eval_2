@@ -1,0 +1,14 @@
+Dataset: monash_saugeenday
+Tier: small
+Target Column: T1
+Workers: 8
+Parallel Processing: True
+CPU Workers: 16
+GPU Batch Size: 16
+Geometric Mean WQL: 0.9344665647846835
+Geometric Mean MASE: 11.285251360750626
+Num Processed Series: 1
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 7.23s
+Streaming Mode: False

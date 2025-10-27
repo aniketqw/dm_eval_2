@@ -1,0 +1,11 @@
+Dataset: solar_1h
+Tier: medium_large
+Target Column: power_mw
+Workers: 16
+Geometric Mean WQL: 0.38013048134795685
+Geometric Mean MASE: 0.29677650553046814
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 67.00s
+Streaming Mode: False

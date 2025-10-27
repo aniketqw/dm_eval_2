@@ -1,0 +1,14 @@
+Dataset: monash_m1_yearly
+Tier: very_small
+Target Column: target
+Workers: 4
+Parallel Processing: True
+CPU Workers: 16
+GPU Batch Size: 16
+Geometric Mean WQL: 0.21739579554658814
+Geometric Mean MASE: 4.469182878495184
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 12.47s
+Streaming Mode: False

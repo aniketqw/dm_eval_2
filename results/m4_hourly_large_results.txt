@@ -1,0 +1,11 @@
+Dataset: m4_hourly
+Tier: medium
+Target Column: target
+Workers: 12
+Geometric Mean WQL: 0.023855808203876807
+Geometric Mean MASE: 0.33890560889643917
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 57.02s
+Streaming Mode: False

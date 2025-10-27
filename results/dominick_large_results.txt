@@ -1,0 +1,11 @@
+Dataset: dominick
+Tier: medium
+Target Column: target
+Workers: 12
+Geometric Mean WQL: 0.41864857111029585
+Geometric Mean MASE: 1.303068534804779
+Num Processed Series: 47
+Too Short Count: 0
+Invalid Count: 53
+Processing Time: 154.05s
+Streaming Mode: True

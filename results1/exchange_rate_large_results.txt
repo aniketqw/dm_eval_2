@@ -1,0 +1,14 @@
+Dataset: exchange_rate
+Tier: very_small
+Target Column: target
+Workers: 4
+Parallel Processing: True
+CPU Workers: 16
+GPU Batch Size: 16
+Geometric Mean WQL: 0.005803063500990393
+Geometric Mean MASE: 1.6304700277945632
+Num Processed Series: 8
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 10.14s
+Streaming Mode: False

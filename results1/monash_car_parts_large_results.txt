@@ -1,0 +1,14 @@
+Dataset: monash_car_parts
+Tier: medium
+Target Column: target
+Workers: 12
+Parallel Processing: True
+CPU Workers: 16
+GPU Batch Size: 16
+Geometric Mean WQL: 1.441592446532162
+Geometric Mean MASE: 0.8379182888768341
+Num Processed Series: 75
+Too Short Count: 0
+Invalid Count: 25
+Processing Time: 11.33s
+Streaming Mode: False

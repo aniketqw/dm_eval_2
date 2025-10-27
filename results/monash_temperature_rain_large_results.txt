@@ -1,0 +1,11 @@
+Dataset: monash_temperature_rain
+Tier: small
+Target Column: t_mean
+Workers: 8
+Geometric Mean WQL: 0.07615905701258088
+Geometric Mean MASE: 0.9323472194404613
+Num Processed Series: 72
+Too Short Count: 0
+Invalid Count: 28
+Processing Time: 68.50s
+Streaming Mode: True

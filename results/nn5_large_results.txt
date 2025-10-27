@@ -1,0 +1,11 @@
+Dataset: nn5
+Tier: very_small
+Target Column: target
+Workers: 4
+Geometric Mean WQL: nan
+Geometric Mean MASE: nan
+Num Processed Series: 0
+Too Short Count: 0
+Invalid Count: 100
+Processing Time: 8.77s
+Streaming Mode: False

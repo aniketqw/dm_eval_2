@@ -1,0 +1,14 @@
+Dataset: ushcn_daily
+Tier: medium_large
+Target Column: PRCP
+Workers: 16
+Parallel Processing: True
+CPU Workers: 16
+GPU Batch Size: 16
+Geometric Mean WQL: 1.4188281074206426
+Geometric Mean MASE: 1.2219820285892622
+Num Processed Series: 1
+Too Short Count: 0
+Invalid Count: 99
+Processing Time: 33.46s
+Streaming Mode: False
