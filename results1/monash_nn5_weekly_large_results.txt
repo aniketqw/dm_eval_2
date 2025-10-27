@@ -1,0 +1,14 @@
+Dataset: monash_nn5_weekly
+Tier: large
+Target Column: target
+Workers: 20
+Parallel Processing: True
+CPU Workers: 16
+GPU Batch Size: 16
+Geometric Mean WQL: 0.10151435086712883
+Geometric Mean MASE: 0.8554594128568697
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 29.56s
+Streaming Mode: False

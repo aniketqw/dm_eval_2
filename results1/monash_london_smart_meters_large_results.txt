@@ -1,0 +1,14 @@
+Dataset: monash_london_smart_meters
+Tier: large
+Target Column: target
+Workers: 20
+Parallel Processing: True
+CPU Workers: 16
+GPU Batch Size: 16
+Geometric Mean WQL: 0.7024425994617096
+Geometric Mean MASE: 2.0192437631711035
+Num Processed Series: 3
+Too Short Count: 0
+Invalid Count: 97
+Processing Time: 44.77s
+Streaming Mode: False

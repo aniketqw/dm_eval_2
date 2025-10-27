@@ -1,0 +1,11 @@
+Dataset: monash_nn5_weekly
+Tier: large
+Target Column: target
+Workers: 20
+Geometric Mean WQL: 0.1019128455161378
+Geometric Mean MASE: 0.8534855063563566
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 59.88s
+Streaming Mode: False
