@@ -1,0 +1,11 @@
+Dataset: exchange_rate
+Tier: very_small
+Target Column: target
+Workers: 4
+Geometric Mean WQL: 0.005670624169086388
+Geometric Mean MASE: 1.711415800745866
+Num Processed Series: 8
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 12.68s
+Streaming Mode: False

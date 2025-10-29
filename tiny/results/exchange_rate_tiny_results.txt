@@ -1,0 +1,4 @@
+Dataset: exchange_rate
+Geometric Mean WQL: 0.002601705624992426
+Geometric Mean MASE: 0.4817063510417938
+Processed Series IDs: currency_2, currency_6, currency_1, currency_8, currency_3, currency_5, currency_4, currency_7

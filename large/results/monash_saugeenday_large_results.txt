@@ -1,0 +1,11 @@
+Dataset: monash_saugeenday
+Tier: small
+Target Column: T1
+Workers: 8
+Geometric Mean WQL: 0.9671881706411528
+Geometric Mean MASE: 11.570409795708573
+Num Processed Series: 1
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 8.16s
+Streaming Mode: False

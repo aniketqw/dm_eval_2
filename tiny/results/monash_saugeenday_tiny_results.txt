@@ -1,0 +1,4 @@
+Dataset: monash_saugeenday
+Geometric Mean WQL: 0.6225962113716408
+Geometric Mean MASE: 3.2788963317871094
+Processed Series IDs: T000000

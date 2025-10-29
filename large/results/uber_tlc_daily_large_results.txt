@@ -1,0 +1,11 @@
+Dataset: uber_tlc_daily
+Tier: medium_large
+Target Column: target
+Workers: 16
+Geometric Mean WQL: 0.14161472420275542
+Geometric Mean MASE: 0.7516763403401836
+Num Processed Series: 99
+Too Short Count: 0
+Invalid Count: 1
+Processing Time: 56.78s
+Streaming Mode: False

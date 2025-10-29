@@ -1,0 +1,11 @@
+Dataset: electricity_15min
+Tier: medium_large
+Target Column: consumption_kW
+Workers: 16
+Geometric Mean WQL: 0.06410564365577422
+Geometric Mean MASE: 0.6696154097228767
+Num Processed Series: 99
+Too Short Count: 0
+Invalid Count: 1
+Processing Time: 60.15s
+Streaming Mode: False

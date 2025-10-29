@@ -1,0 +1,11 @@
+Dataset: wind_farms_daily
+Tier: medium_large
+Target Column: target
+Workers: 16
+Geometric Mean WQL: 0.9790172885325568
+Geometric Mean MASE: 0.7096591989963059
+Num Processed Series: 2
+Too Short Count: 0
+Invalid Count: 98
+Processing Time: 9.84s
+Streaming Mode: False

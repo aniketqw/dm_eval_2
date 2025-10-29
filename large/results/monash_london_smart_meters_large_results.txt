@@ -1,0 +1,11 @@
+Dataset: monash_london_smart_meters
+Tier: large
+Target Column: target
+Workers: 20
+Geometric Mean WQL: 0.7110229294634837
+Geometric Mean MASE: 2.0570404838835947
+Num Processed Series: 3
+Too Short Count: 0
+Invalid Count: 97
+Processing Time: 26.42s
+Streaming Mode: False

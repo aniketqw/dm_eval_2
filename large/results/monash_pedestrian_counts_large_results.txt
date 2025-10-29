@@ -1,0 +1,11 @@
+Dataset: monash_pedestrian_counts
+Tier: medium
+Target Column: target
+Workers: 12
+Geometric Mean WQL: 0.16071104236031658
+Geometric Mean MASE: 0.15760400779784067
+Num Processed Series: 66
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 35.93s
+Streaming Mode: False

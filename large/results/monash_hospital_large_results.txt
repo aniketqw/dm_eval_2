@@ -1,0 +1,11 @@
+Dataset: monash_hospital
+Tier: medium
+Target Column: target
+Workers: 12
+Geometric Mean WQL: 0.14329044166490756
+Geometric Mean MASE: 0.8336879719664062
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 46.81s
+Streaming Mode: False

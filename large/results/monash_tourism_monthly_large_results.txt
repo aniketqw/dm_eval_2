@@ -1,0 +1,11 @@
+Dataset: monash_tourism_monthly
+Tier: small
+Target Column: target
+Workers: 8
+Geometric Mean WQL: 0.1432279452931772
+Geometric Mean MASE: 0.83080895907016
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 49.45s
+Streaming Mode: False

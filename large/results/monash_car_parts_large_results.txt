@@ -1,0 +1,11 @@
+Dataset: monash_car_parts
+Tier: medium
+Target Column: target
+Workers: 12
+Geometric Mean WQL: 1.385197902532425
+Geometric Mean MASE: 0.8159117652992661
+Num Processed Series: 75
+Too Short Count: 0
+Invalid Count: 25
+Processing Time: 47.14s
+Streaming Mode: False

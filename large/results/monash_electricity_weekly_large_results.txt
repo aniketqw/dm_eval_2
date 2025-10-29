@@ -1,0 +1,11 @@
+Dataset: monash_electricity_weekly
+Tier: large
+Target Column: target
+Workers: 20
+Geometric Mean WQL: 0.05836286654404258
+Geometric Mean MASE: 1.2355202437294148
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 46.16s
+Streaming Mode: False

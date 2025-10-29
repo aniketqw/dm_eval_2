@@ -1,0 +1,4 @@
+Dataset: monash_australian_electricity
+Geometric Mean WQL: 0.012096289601209537
+Geometric Mean MASE: 0.15169569849967957
+Processed Series IDs: T000001, T000004, T000002, T000000, T000003

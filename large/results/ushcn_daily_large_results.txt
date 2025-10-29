@@ -1,0 +1,11 @@
+Dataset: ushcn_daily
+Tier: medium_large
+Target Column: PRCP
+Workers: 16
+Geometric Mean WQL: 1.3944683993998785
+Geometric Mean MASE: 1.2219820285892622
+Num Processed Series: 1
+Too Short Count: 0
+Invalid Count: 99
+Processing Time: 25.26s
+Streaming Mode: False

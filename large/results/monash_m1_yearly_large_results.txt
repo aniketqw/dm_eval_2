@@ -1,0 +1,11 @@
+Dataset: monash_m1_yearly
+Tier: very_small
+Target Column: target
+Workers: 4
+Geometric Mean WQL: 0.29535343319211677
+Geometric Mean MASE: 6.008393533213376
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 47.30s
+Streaming Mode: False

@@ -1,0 +1,11 @@
+Dataset: m4_daily
+Tier: small
+Target Column: target
+Workers: 8
+Geometric Mean WQL: 0.018692834748332828
+Geometric Mean MASE: 2.203421313092278
+Num Processed Series: 510
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 233.05s
+Streaming Mode: False

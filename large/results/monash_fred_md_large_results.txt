@@ -1,0 +1,11 @@
+Dataset: monash_fred_md
+Tier: medium
+Target Column: target
+Workers: 12
+Geometric Mean WQL: 0.02011640269825466
+Geometric Mean MASE: 2.125478694277295
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 49.76s
+Streaming Mode: False

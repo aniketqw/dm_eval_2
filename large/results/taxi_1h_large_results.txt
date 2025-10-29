@@ -1,0 +1,11 @@
+Dataset: taxi_1h
+Tier: medium_large
+Target Column: target
+Workers: 16
+Geometric Mean WQL: 0.21981487753163767
+Geometric Mean MASE: 0.7128869150700012
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 49.99s
+Streaming Mode: False

@@ -1,0 +1,4 @@
+Dataset: ercot
+Geometric Mean WQL: 0.010292914185775466
+Geometric Mean MASE: nan
+Processed Series IDs: EAST, SOUTHERN, COAST, WEST, FAR_WEST, NORTH_C, NORTH, SOUTH_C

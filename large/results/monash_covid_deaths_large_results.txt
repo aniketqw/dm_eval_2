@@ -1,0 +1,11 @@
+Dataset: monash_covid_deaths
+Tier: medium
+Target Column: target
+Workers: 12
+Geometric Mean WQL: 0.021352284610747705
+Geometric Mean MASE: 2.900137795168697
+Num Processed Series: 86
+Too Short Count: 0
+Invalid Count: 14
+Processing Time: 48.33s
+Streaming Mode: False

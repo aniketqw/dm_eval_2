@@ -1,0 +1,4 @@
+Dataset: uber_tlc_hourly
+Geometric Mean WQL: 0.18106957677511162
+Geometric Mean MASE: 0.33300664827077797
+Processed Series IDs: location_252, location_219, location_197, location_171, location_067, location_140, location_178, location_264, location_010, location_117, location_025, location_229, location_047, location_210, location_195, location_257, location_080, location_007, location_213, location_068, location_143, location_149, location_020, location_217, location_114, location_153, location_079, location_069, location_091, location_016

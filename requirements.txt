@@ -4,3 +4,8 @@ scipy
 numpy
 pandas
 pyarrow
+matplotlib
+transformers
+peft
+scikit-learn
+seaborn

@@ -1,0 +1,11 @@
+Dataset: mexico_city_bikes
+Tier: medium_large
+Target Column: target
+Workers: 16
+Geometric Mean WQL: 0.5988606662999549
+Geometric Mean MASE: 0.6817282903987654
+Num Processed Series: 100
+Too Short Count: 0
+Invalid Count: 0
+Processing Time: 68.74s
+Streaming Mode: False
