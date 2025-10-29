@@ -408,10 +408,12 @@ def process_dataset(config_name, pipeline):
                 df_ds = ds_train.to_pandas()
         
             # Perform sampling
+            #stratified sampling if category exist
             if 'category' in df_ds.columns:
                 sampled_df = df_ds.groupby('category', group_keys=False).apply(
                     lambda x: x.sample(min(len(x), NUM_SAMPLES_PER_SERIES), random_state=42)
                 )
+            #otherwise random sampling 
             else:
                 sampled_df = df_ds.sample(min(len(df_ds), NUM_SAMPLES_PER_SERIES), random_state=42)
         
