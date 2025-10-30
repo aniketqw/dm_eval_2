@@ -1,0 +1,166 @@
+2025-10-30 22:23:02 | INFO     | ======================================================================
+2025-10-30 22:23:02 | INFO     | === Chronos Multi-Seed Evaluation ===
+2025-10-30 22:23:02 | INFO     | ======================================================================
+2025-10-30 22:23:02 | INFO     | Running evaluation over 3 seeds: [42, 123, 456]
+2025-10-30 22:23:02 | INFO     | Configuration: {
+  "CSV_URL": "https://autogluon.s3.amazonaws.com/datasets/timeseries/monash_m1_quarterly/train.csv",
+  "PARQUET_PATH": "/home/h20250169/study/modelTraining/dm_eval_2/base/withoutSampling/singleDataset/short/M1_QUARTERLY/dataset/m1_quarterly_clean.parquet.gz",
+  "NUM_SAMPLES": 20,
+  "QUANTILE_LEVELS": [
+    0.1,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9
+  ],
+  "SEASON_LENGTH": 4,
+  "RESULTS_DIR": "results",
+  "CHECKPOINT_INTERVAL": 500,
+  "MAX_MEMORY_GB": 24,
+  "BATCH_SIZE": 1,
+  "CONTEXT_LENGTH": 512,
+  "PREDICTION_LENGTH": 8
+}
+2025-10-30 22:23:02 | INFO     | ======================================================================
+2025-10-30 22:23:02 | INFO     | 
+======================================================================
+2025-10-30 22:23:02 | INFO     | === SEED 42 ===
+2025-10-30 22:23:02 | INFO     | ======================================================================
+
+2025-10-30 22:23:02 | INFO     | ✅ Loading data from local Parquet: /home/h20250169/study/modelTraining/dm_eval_2/base/withoutSampling/singleDataset/short/M1_QUARTERLY/dataset/m1_quarterly_clean.parquet.gz
+2025-10-30 22:23:02 | INFO     | Input dataframe shape : (9944, 3)
+2025-10-30 22:23:02 | INFO     | First 5 rows:
+item_id                 timestamp  target
+T000000 1975-10-31 00:00:00+00:00    0.54
+T000000 1976-01-31 00:00:00+00:00    0.78
+T000000 1976-04-30 00:00:00+00:00    0.82
+T000000 1976-07-31 00:00:00+00:00    0.46
+T000000 1976-10-31 00:00:00+00:00    0.52
+2025-10-30 22:23:02 | INFO     | Prepared 203 series for inference
+2025-10-30 22:23:02 | INFO     | Loading Chronos model...
+2025-10-30 22:23:05 | INFO     | Will run inference on 203 series ( 20 samples each )
+2025-10-30 22:23:05 | INFO     | Using season_length=4 for Seasonal Naive baseline
+2025-10-30 22:23:25 | INFO     | Series 99 → Model WQL=0.0330, Model MASE=0.2785 | Baseline WQL=0.0796, Baseline MASE=0.7004
+2025-10-30 22:23:25 | INFO     | Progress: 100/203 (49.3%)
+2025-10-30 22:23:44 | INFO     | Series 199 → Model WQL=0.6015, Model MASE=9.4377 | Baseline WQL=0.5834, Baseline MASE=8.8741
+2025-10-30 22:23:44 | INFO     | Progress: 200/203 (98.5%)
+2025-10-30 22:23:45 | INFO     | Checkpoint saved after processing index 203
+2025-10-30 22:23:45 | INFO     | 
+======================================================================
+2025-10-30 22:23:45 | INFO     | === SEED 42 RESULTS ===
+2025-10-30 22:23:45 | INFO     |   Model WQL:  0.079871
+2025-10-30 22:23:45 | INFO     |   Model MASE: 1.270706
+2025-10-30 22:23:45 | INFO     |   Baseline WQL:  0.120556
+2025-10-30 22:23:45 | INFO     |   Baseline MASE: 1.586569
+2025-10-30 22:23:45 | INFO     | ======================================================================
+
+2025-10-30 22:23:45 | INFO     | 
+======================================================================
+2025-10-30 22:23:45 | INFO     | === SEED 123 ===
+2025-10-30 22:23:45 | INFO     | ======================================================================
+
+2025-10-30 22:23:45 | INFO     | ✅ Loading data from local Parquet: /home/h20250169/study/modelTraining/dm_eval_2/base/withoutSampling/singleDataset/short/M1_QUARTERLY/dataset/m1_quarterly_clean.parquet.gz
+2025-10-30 22:23:45 | INFO     | Input dataframe shape : (9944, 3)
+2025-10-30 22:23:45 | INFO     | First 5 rows:
+item_id                 timestamp  target
+T000000 1975-10-31 00:00:00+00:00    0.54
+T000000 1976-01-31 00:00:00+00:00    0.78
+T000000 1976-04-30 00:00:00+00:00    0.82
+T000000 1976-07-31 00:00:00+00:00    0.46
+T000000 1976-10-31 00:00:00+00:00    0.52
+2025-10-30 22:23:45 | INFO     | Prepared 203 series for inference
+2025-10-30 22:23:45 | INFO     | Loading Chronos model...
+2025-10-30 22:23:47 | INFO     | Will run inference on 203 series ( 20 samples each )
+2025-10-30 22:23:47 | INFO     | Using season_length=4 for Seasonal Naive baseline
+2025-10-30 22:24:06 | INFO     | Series 99 → Model WQL=0.0351, Model MASE=0.3253 | Baseline WQL=0.0796, Baseline MASE=0.7004
+2025-10-30 22:24:06 | INFO     | Progress: 100/203 (49.3%)
+2025-10-30 22:24:25 | INFO     | Series 199 → Model WQL=0.6208, Model MASE=9.8465 | Baseline WQL=0.5834, Baseline MASE=8.8741
+2025-10-30 22:24:25 | INFO     | Progress: 200/203 (98.5%)
+2025-10-30 22:24:26 | INFO     | Checkpoint saved after processing index 203
+2025-10-30 22:24:26 | INFO     | 
+======================================================================
+2025-10-30 22:24:26 | INFO     | === SEED 123 RESULTS ===
+2025-10-30 22:24:26 | INFO     |   Model WQL:  0.080329
+2025-10-30 22:24:26 | INFO     |   Model MASE: 1.274041
+2025-10-30 22:24:26 | INFO     |   Baseline WQL:  0.120556
+2025-10-30 22:24:26 | INFO     |   Baseline MASE: 1.586569
+2025-10-30 22:24:26 | INFO     | ======================================================================
+
+2025-10-30 22:24:26 | INFO     | 
+======================================================================
+2025-10-30 22:24:26 | INFO     | === SEED 456 ===
+2025-10-30 22:24:26 | INFO     | ======================================================================
+
+2025-10-30 22:24:26 | INFO     | ✅ Loading data from local Parquet: /home/h20250169/study/modelTraining/dm_eval_2/base/withoutSampling/singleDataset/short/M1_QUARTERLY/dataset/m1_quarterly_clean.parquet.gz
+2025-10-30 22:24:26 | INFO     | Input dataframe shape : (9944, 3)
+2025-10-30 22:24:26 | INFO     | First 5 rows:
+item_id                 timestamp  target
+T000000 1975-10-31 00:00:00+00:00    0.54
+T000000 1976-01-31 00:00:00+00:00    0.78
+T000000 1976-04-30 00:00:00+00:00    0.82
+T000000 1976-07-31 00:00:00+00:00    0.46
+T000000 1976-10-31 00:00:00+00:00    0.52
+2025-10-30 22:24:26 | INFO     | Prepared 203 series for inference
+2025-10-30 22:24:26 | INFO     | Loading Chronos model...
+2025-10-30 22:24:28 | INFO     | Will run inference on 203 series ( 20 samples each )
+2025-10-30 22:24:28 | INFO     | Using season_length=4 for Seasonal Naive baseline
+2025-10-30 22:24:47 | INFO     | Series 99 → Model WQL=0.0303, Model MASE=0.3254 | Baseline WQL=0.0796, Baseline MASE=0.7004
+2025-10-30 22:24:47 | INFO     | Progress: 100/203 (49.3%)
+2025-10-30 22:25:06 | INFO     | Series 199 → Model WQL=0.6065, Model MASE=9.6754 | Baseline WQL=0.5834, Baseline MASE=8.8741
+2025-10-30 22:25:06 | INFO     | Progress: 200/203 (98.5%)
+2025-10-30 22:25:07 | INFO     | Checkpoint saved after processing index 203
+2025-10-30 22:25:07 | INFO     | 
+======================================================================
+2025-10-30 22:25:07 | INFO     | === SEED 456 RESULTS ===
+2025-10-30 22:25:07 | INFO     |   Model WQL:  0.080490
+2025-10-30 22:25:07 | INFO     |   Model MASE: 1.286761
+2025-10-30 22:25:07 | INFO     |   Baseline WQL:  0.120556
+2025-10-30 22:25:07 | INFO     |   Baseline MASE: 1.586569
+2025-10-30 22:25:07 | INFO     | ======================================================================
+
+2025-10-30 22:25:07 | INFO     | 
+======================================================================
+2025-10-30 22:25:07 | INFO     | === FINAL AGGREGATED RESULTS (AVERAGED OVER SEEDS) ===
+2025-10-30 22:25:07 | INFO     | ======================================================================
+2025-10-30 22:25:07 | INFO     | 
+Per-seed results:
+2025-10-30 22:25:07 | INFO     |   Seed 42: WQL=0.079871, MASE=1.270706
+2025-10-30 22:25:07 | INFO     |   Seed 123: WQL=0.080329, MASE=1.274041
+2025-10-30 22:25:07 | INFO     |   Seed 456: WQL=0.080490, MASE=1.286761
+2025-10-30 22:25:07 | INFO     | 
+----------------------------------------------------------------------
+2025-10-30 22:25:07 | INFO     | FINAL RESULTS (Mean over 3 seeds):
+2025-10-30 22:25:07 | INFO     | ----------------------------------------------------------------------
+2025-10-30 22:25:07 | INFO     | MODEL - ABSOLUTE SCORES:
+2025-10-30 22:25:07 | INFO     |   WQL  (mean over seeds) : 0.080230
+2025-10-30 22:25:07 | INFO     |   MASE (mean over seeds) : 1.277169
+2025-10-30 22:25:07 | INFO     | 
+2025-10-30 22:25:07 | INFO     | BASELINE - ABSOLUTE SCORES:
+2025-10-30 22:25:07 | INFO     |   WQL  (mean over seeds) : 0.120556
+2025-10-30 22:25:07 | INFO     |   MASE (mean over seeds) : 1.586569
+2025-10-30 22:25:07 | INFO     | 
+2025-10-30 22:25:07 | INFO     | RELATIVE SCORES (Model/Baseline):
+2025-10-30 22:25:07 | INFO     |   WQL  (relative) : 0.665501
+2025-10-30 22:25:07 | INFO     |   MASE (relative) : 0.804988
+2025-10-30 22:25:07 | INFO     | ======================================================================
+2025-10-30 22:25:07 | INFO     | 
+----------------------------------------------------------------------
+2025-10-30 22:25:07 | INFO     | COMPARISON TO PAPER:
+2025-10-30 22:25:07 | INFO     | ----------------------------------------------------------------------
+2025-10-30 22:25:07 | INFO     |   Paper WQL:  0.105
+2025-10-30 22:25:07 | INFO     |   Your WQL:   0.080230
+2025-10-30 22:25:07 | INFO     |   Difference: 0.024770 (24.3%)
+2025-10-30 22:25:07 | INFO     | 
+2025-10-30 22:25:07 | INFO     |   Paper MASE: 1.739
+2025-10-30 22:25:07 | INFO     |   Your MASE:  1.277169
+2025-10-30 22:25:07 | INFO     |   Difference: 0.461831 (26.6%)
+2025-10-30 22:25:07 | INFO     | ======================================================================
+2025-10-30 22:25:07 | INFO     | 
+Aggregated results saved to: results/chronos_multiseed_results.pkl
+2025-10-30 22:25:07 | INFO     | 
+=== Multi-seed evaluation complete! ===
+
