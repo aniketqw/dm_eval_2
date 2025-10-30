@@ -2,13 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-chronos_common.py - CORRECTED MASE CALCULATION
+chronos_common.py - SIMPLEST POSSIBLE CORRECT IMPLEMENTATION
 
-CRITICAL FIX: The MASE formula from the paper (Appendix D) is:
-
-MASE(x̂ᵢ, xᵢ) = (C - S) / H × Σ|x̂ᵢ,ₜ - xᵢ,ₜ| / Σ|xᵢ,ₜ - xᵢ,ₜ₊ₛ|
-
-Where the denominator sum runs from t=1 to C-S (not C-1!)
+Going back to basics with the EXACT formula from the paper.
 """
 
 import logging, pickle, signal, sys, time
@@ -23,7 +19,7 @@ from chronos import ChronosPipeline
 
 
 # ----------------------------------------------------------------------
-# 0️⃣  LOGGING (shared)
+# 0️⃣  LOGGING
 # ----------------------------------------------------------------------
 def setup_logging() -> logging.Logger:
     log_dir = Path("logs")
@@ -39,10 +35,9 @@ def setup_logging() -> logging.Logger:
 
 
 # ----------------------------------------------------------------------
-# 1️⃣  GRACEFUL SHUTDOWN (shared)
+# 1️⃣  GRACEFUL SHUTDOWN
 # ----------------------------------------------------------------------
 class GracefulShutdown:
-    """Catches SIGINT / SIGTERM and flips a flag that the loop can inspect."""
     def __init__(self, logger: logging.Logger):
         self.logger = logger
         self.shutdown_requested = False
@@ -55,17 +50,9 @@ class GracefulShutdown:
 
 
 # ----------------------------------------------------------------------
-# 2️⃣  CHECKPOINT / PROGRESS TRACKER (shared)
+# 2️⃣  PROGRESS TRACKER
 # ----------------------------------------------------------------------
 class ProgressTracker:
-    """
-    Persists metrics (processed indices, per‑series WQL, per‑series MASE)
-    together with BASELINE metrics for normalization.
-    A pickle file is written every `checkpoint_interval` steps.
-    
-    CRITICAL: Stores ABSOLUTE (raw) scores per series, NOT relative scores!
-    Relative scores are computed ONLY during final aggregation.
-    """
     def __init__(self, results_dir: str, checkpoint_interval: int, logger: logging.Logger):
         self.logger = logger
         self.results_dir = Path(results_dir)
@@ -74,14 +61,13 @@ class ProgressTracker:
         self.checkpoint_file = self.results_dir / "progress_checkpoint.pkl"
 
         self.processed: set[int] = set()
-        self.wqls: List[float] = []           # Stores ABSOLUTE WQLs (raw model scores per-series)
-        self.mases: List[float] = []          # Stores ABSOLUTE MASEs (raw model scores per-series)
-        self.baseline_wqls: List[float] = []  # Stores baseline WQLs per-series
-        self.baseline_mases: List[float] = [] # Stores baseline MASEs per-series
+        self.wqls: List[float] = []
+        self.mases: List[float] = []
+        self.baseline_wqls: List[float] = []
+        self.baseline_mases: List[float] = []
 
         self._load()
 
-    # --------------------------------------------------------------
     def _load(self):
         if self.checkpoint_file.exists():
             try:
@@ -96,7 +82,6 @@ class ProgressTracker:
             except Exception as e:
                 self.logger.warning(f"Could not read checkpoint: {e}")
 
-    # --------------------------------------------------------------
     def save(self, last_index: int):
         try:
             payload = {
@@ -114,20 +99,12 @@ class ProgressTracker:
         except Exception as e:
             self.logger.error(f"Failed to write checkpoint: {e}")
 
-    # --------------------------------------------------------------
     def should_process(self, idx: int) -> bool:
         return idx not in self.processed
 
-    # --------------------------------------------------------------
     def add(self, idx: int, wql_val: float, mase_val: float, baseline_wql: float, baseline_mase: float):
-        """
-        Add ABSOLUTE (raw) metrics for both model and baseline.
-        
-        CRITICAL: Store the RAW scores per-series, NOT relative scores!
-        """
         self.processed.add(idx)
         
-        # Store ABSOLUTE (raw) scores - filter out invalid values
         if not np.isnan(wql_val) and wql_val > 0:
             self.wqls.append(wql_val)
             
@@ -142,22 +119,16 @@ class ProgressTracker:
 
 
 # ----------------------------------------------------------------------
-# 3️⃣  METRICS (shared) -------------------------------------------------
+# 3️⃣  METRICS
+# ----------------------------------------------------------------------
 
 def seasonal_naive_forecast(context: np.ndarray, pred_len: int, season_length: int) -> np.ndarray:
-    """
-    Generate seasonal naive forecast.
-    For yearly data, season_length=1 (uses last observation).
-    For monthly data, season_length=12
-    For quarterly data, season_length=4
-    """
+    """Generate seasonal naive forecast."""
     if season_length >= len(context):
-        # If not enough history, just repeat the last value
         return np.full(pred_len, context[-1])
     
     forecast = []
     for i in range(pred_len):
-        # Look back season_length steps
         idx = len(context) - season_length + (i % season_length)
         if idx < 0:
             idx = -1
@@ -166,93 +137,61 @@ def seasonal_naive_forecast(context: np.ndarray, pred_len: int, season_length: i
 
 
 def wql(actual: np.ndarray, pred: np.ndarray, qs: List[float]) -> float:
-    """
-    Weighted Quantile Loss – identical to the Chronos paper.
-    
-    Formula from Appendix D:
-    WQLα = 2 × Σ QLα(q_i,t, x_i,t) / Σ |x_i,t|
-    WQL = (1/K) × Σ WQLαj
-    
-    where K is the number of quantile levels.
-    
-    Returns the RAW WQL score (not normalized by baseline).
-    """
+    """Weighted Quantile Loss."""
     if np.sum(np.abs(actual)) == 0:
         return np.nan
     
     actual = actual.reshape(-1, 1) if actual.ndim == 1 else actual
     
-    # Compute WQL for each quantile level, then average
     wql_sum = 0.0
     for i, q in enumerate(qs):
-        # Quantile loss: QL_q(pred, actual)
         errors = actual - pred[:, i:i+1]
         ql = np.where(errors >= 0, q * errors, (q - 1) * errors)
-        
-        # Weighted by sum of absolute actuals (with factor of 2)
         wql_q = 2.0 * np.sum(ql) / np.sum(np.abs(actual))
         wql_sum += wql_q
     
-    # Average across all quantile levels
     return wql_sum / len(qs)
 
 
-def mase(actual: np.ndarray, pred: np.ndarray, context: np.ndarray, season_length: int, pred_len: int) -> float:
+def mase(actual: np.ndarray, pred: np.ndarray, context: np.ndarray, season_length: int) -> float:
     """
-    Mean Absolute Scaled Error - CORRECTED FORMULA from paper Appendix D.
+    Mean Absolute Scaled Error - SIMPLEST CORRECT IMPLEMENTATION
     
-    MASE(x̂ᵢ, xᵢ) = [(C - S) / H] × [Σ|x̂ᵢ,ₜ - xᵢ,ₜ|] / [Σ|xᵢ,ₜ - xᵢ,ₜ₊ₛ|]
+    From paper Appendix D:
+    MASE = mean(|forecast_error|) / mean(|seasonal_naive_error_on_history|)
     
-    Where:
-    - C = length of context
-    - S = season_length (1 for yearly, 12 for monthly, 4 for quarterly)
-    - H = prediction length
-    - The denominator sum runs from t=1 to C-S
-    
-    Returns the RAW MASE score (not normalized by baseline).
+    For yearly data (S=1): seasonal_naive_error = |x_t - x_{t+1}|
     """
-    C = len(context)
-    S = season_length
-    H = pred_len
+    # MAE of the forecast
+    mae_forecast = np.mean(np.abs(actual - pred))
     
-    # Numerator: mean absolute error of the forecast
-    mae = np.mean(np.abs(actual - pred))
-    
-    # Denominator: mean absolute error of seasonal naive on context
-    # This is the average of |x_t - x_{t+S}| for t=1 to C-S
-    if C <= S:
-        # Not enough data for seasonal naive, use simple diff
+    # MAE of seasonal naive on the historical context
+    # For S=1 (yearly): this is just |x_t - x_{t+1}|
+    if len(context) <= season_length:
+        # Not enough data, use simple differences
         seasonal_errors = np.abs(np.diff(context))
     else:
-        # Correct formula: |x_t - x_{t+S}| for t from 1 to C-S
-        seasonal_errors = np.abs(context[:-S] - context[S:])
+        # Seasonal differences: |x_t - x_{t+S}|
+        seasonal_errors = np.abs(context[:-season_length] - context[season_length:])
     
-    denom = np.mean(seasonal_errors) if len(seasonal_errors) > 0 else 1.0
+    mae_seasonal = np.mean(seasonal_errors) if len(seasonal_errors) > 0 else 1.0
     
-    if denom == 0:
-        return np.inf if mae > 0 else 0.0
+    if mae_seasonal == 0:
+        return np.inf if mae_forecast > 0 else 0.0
     
-    # Apply the scaling factor (C - S) / H
-    scaling_factor = (C - S) / H
-    
-    return scaling_factor * (mae / denom)
+    return mae_forecast / mae_seasonal
 
 
 # ----------------------------------------------------------------------
-# 4️⃣  GENERIC DATA‑LOADER (shared) ------------------------------------
+# 4️⃣  DATA LOADER
+# ----------------------------------------------------------------------
 def load_dataset(
     csv_url: str, 
     parquet_path: str, 
     pred_len: int,  
     logger: logging.Logger
 ) -> Tuple[List[np.ndarray], List[np.ndarray], List[int]]:
-    """
-    Reads a **Chronos long‑format** CSV (or a cached parquet) and returns three
-    parallel lists required by the inference loop.
-    """
-    # --------------------------------------------------------------
-    # 1️⃣  Prefer the local parquet (fast, no network)
-    # --------------------------------------------------------------
+    """Load dataset."""
     if Path(parquet_path).exists():
         logger.info(f"✅ Loading data from local Parquet: {parquet_path}")
         df = pd.read_parquet(parquet_path)
@@ -260,15 +199,9 @@ def load_dataset(
         logger.info(f"Parquet not found – downloading CSV from {csv_url}")
         df = pd.read_csv(csv_url, parse_dates=["timestamp"])
 
-    # --------------------------------------------------------------
-    # 2️⃣  Normalise column names
-    # --------------------------------------------------------------
     if "id" in df.columns and "item_id" not in df.columns:
         df = df.rename(columns={"id": "item_id"})
 
-    # --------------------------------------------------------------
-    # 3️⃣  Basic sanity check
-    # --------------------------------------------------------------
     required = {"item_id", "timestamp", "target"}
     missing = required - set(df.columns)
     if missing:
@@ -277,14 +210,8 @@ def load_dataset(
     logger.info(f"Input dataframe shape : {df.shape}")
     logger.info("First 5 rows:\n" + df.head().to_string(index=False))
 
-    # --------------------------------------------------------------
-    # 4️⃣  Ensure each series is sorted chronologically
-    # --------------------------------------------------------------
     df = df.sort_values(["item_id", "timestamp"]).reset_index(drop=True)
 
-    # --------------------------------------------------------------
-    # 5️⃣  Build the three parallel lists
-    # --------------------------------------------------------------
     contexts, futures, indices = [], [], []
     for i, (item_id, grp) in enumerate(df.groupby("item_id")):
         target_arr = grp["target"].astype(np.float32).values
@@ -309,7 +236,8 @@ def load_dataset(
 
 
 # ----------------------------------------------------------------------
-# 5️⃣  INFERENCE LOOP (shared) -----------------------------------------
+# 5️⃣  INFERENCE LOOP
+# ----------------------------------------------------------------------
 def run_inference(
     pipeline: ChronosPipeline,
     contexts: List[np.ndarray],
@@ -319,11 +247,7 @@ def run_inference(
     logger: logging.Logger,
     config: dict,
 ) -> None:
-    """
-    Walk through the series, call `pipeline.predict`, compute WQL/MASE,
-    store the ABSOLUTE (raw) results in `tracker`, and checkpoint every
-    `config["CHECKPOINT_INTERVAL"]` steps.
-    """
+    """Run inference loop."""
     total = len(contexts)
     logger.info(f"Will run inference on {total} series ( {config['NUM_SAMPLES']} samples each )")
     
@@ -337,14 +261,8 @@ def run_inference(
             break
 
         if tracker.should_process(i):
-            # ------------------------------------------------------------------
-            # 1️⃣  Build a 1‑dim tensor (batch‑size = 1)
-            # ------------------------------------------------------------------
             tensor = torch.from_numpy(ctx).unsqueeze(0)
 
-            # ------------------------------------------------------------------
-            # 2️⃣  Model prediction (no gradient tracking)
-            # ------------------------------------------------------------------
             with torch.no_grad():
                 samples = pipeline.predict(
                     tensor,
@@ -353,52 +271,30 @@ def run_inference(
                 )
             samples_np = samples.cpu().numpy().squeeze(0)
 
-            # ------------------------------------------------------------------
-            # 3️⃣  Quantile aggregation for MODEL
-            # ------------------------------------------------------------------
             quantile_preds = np.column_stack(
                 [np.quantile(samples_np, q, axis=0) for q in config["QUANTILE_LEVELS"]]
             )
 
-            # Median is the 5‑th column (index 4) because we have 9 quantiles
             median_pred = quantile_preds[:, 4]
 
-            # ------------------------------------------------------------------
-            # 4️⃣  Compute SEASONAL NAIVE BASELINE
-            # ------------------------------------------------------------------
             naive_forecast = seasonal_naive_forecast(ctx, pred_len, season_length)
             naive_quantile_preds = np.tile(naive_forecast.reshape(-1, 1), (1, len(config["QUANTILE_LEVELS"])))
             
-            # ------------------------------------------------------------------
-            # 5️⃣  Compute metrics for MODEL (ABSOLUTE/RAW scores)
-            # ------------------------------------------------------------------
             model_wql = wql(fut, quantile_preds, config["QUANTILE_LEVELS"])
-            model_mase = mase(fut, median_pred, ctx, season_length, pred_len)
+            model_mase = mase(fut, median_pred, ctx, season_length)
 
-            # ------------------------------------------------------------------
-            # 6️⃣  Compute metrics for BASELINE (ABSOLUTE/RAW scores)
-            # ------------------------------------------------------------------
             baseline_wql = wql(fut, naive_quantile_preds, config["QUANTILE_LEVELS"])
-            baseline_mase = mase(fut, naive_forecast, ctx, season_length, pred_len)
+            baseline_mase = mase(fut, naive_forecast, ctx, season_length)
 
-            # ------------------------------------------------------------------
-            # 7️⃣  Store ABSOLUTE results (both model and baseline)
-            # ------------------------------------------------------------------
             tracker.add(i, model_wql, model_mase, baseline_wql, baseline_mase)
 
             if (i + 1) % 100 == 0:
                 logger.info(f"Series {i} → Model WQL={model_wql:.4f}, Model MASE={model_mase:.4f} | "
                           f"Baseline WQL={baseline_wql:.4f}, Baseline MASE={baseline_mase:.4f}")
 
-        # ------------------------------------------------------------------
-        # 8️⃣  Periodic checkpoint
-        # ------------------------------------------------------------------
         if (i + 1) % config["CHECKPOINT_INTERVAL"] == 0 or (i + 1) == total:
             tracker.save(i + 1)
 
-        # ------------------------------------------------------------------
-        # 9️⃣  Light progress output + optional GPU memory cleanup
-        # ------------------------------------------------------------------
         if (i + 1) % 100 == 0:
             logger.info(f"Progress: {i + 1}/{total} ({(i + 1) / total * 100:.1f}%)")
             if torch.cuda.is_available():
@@ -406,24 +302,20 @@ def run_inference(
 
 
 # ----------------------------------------------------------------------
-# 6️⃣  FINAL METRICS AGGREGATION (shared) - CORRECT METHODOLOGY!
+# 6️⃣  FINAL METRICS
 # ----------------------------------------------------------------------
 def write_final_summary(tracker: ProgressTracker, logger: logging.Logger, config: dict) -> None:
-    """
-    Compute final metrics following the EXACT methodology from the Chronos paper.
-    """
+    """Write final summary."""
     if not (tracker.wqls and tracker.mases):
-        logger.warning("No metrics were collected – something went wrong earlier")
+        logger.warning("No metrics were collected")
         return
 
-    # STEP 1: Compute ABSOLUTE geometric means (dataset-level scores)
     wql_geo_abs = gmean(np.maximum(tracker.wqls, 1e-9))
     mase_geo_abs = gmean(np.maximum(tracker.mases, 1e-9))
     
     baseline_wql_geo = gmean(np.maximum(tracker.baseline_wqls, 1e-9))
     baseline_mase_geo = gmean(np.maximum(tracker.baseline_mases, 1e-9))
 
-    # STEP 2: Compute RELATIVE scores (for cross-dataset aggregation)
     wql_relative = wql_geo_abs / baseline_wql_geo if baseline_wql_geo > 0 else np.nan
     mase_relative = mase_geo_abs / baseline_mase_geo if baseline_mase_geo > 0 else np.nan
 
@@ -449,7 +341,7 @@ def write_final_summary(tracker: ProgressTracker, logger: logging.Logger, config
     logger.info("=" * 70)
     logger.info("=== FINAL METRICS ===")
     logger.info("=" * 70)
-    logger.info(f"MODEL - ABSOLUTE SCORES (what appears in paper Tables 7-10):")
+    logger.info(f"MODEL - ABSOLUTE SCORES:")
     logger.info(f"  WQL  (geometric mean) : {wql_geo_abs:.6f}")
     logger.info(f"  MASE (geometric mean) : {mase_geo_abs:.6f}")
     logger.info("")
@@ -457,7 +349,7 @@ def write_final_summary(tracker: ProgressTracker, logger: logging.Logger, config
     logger.info(f"  WQL  (geometric mean) : {baseline_wql_geo:.6f}")
     logger.info(f"  MASE (geometric mean) : {baseline_mase_geo:.6f}")
     logger.info("")
-    logger.info(f"RELATIVE SCORES (Model/Baseline) - for cross-dataset aggregation:")
+    logger.info(f"RELATIVE SCORES (Model/Baseline):")
     logger.info(f"  WQL  (relative) : {wql_relative:.6f}")
     logger.info(f"  MASE (relative) : {mase_relative:.6f}")
     logger.info("=" * 70)
