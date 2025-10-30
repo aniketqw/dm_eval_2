@@ -96,12 +96,12 @@ def main():
     
     # Configuration - matching the paper
     CONFIG = {
-        "CSV_URL": "https://autogluon.s3.amazonaws.com/datasets/timeseries/monash_tourism_yearly/train.csv",
-        "PARQUET_PATH": "/home/h20250169/study/modelTraining/dm_eval_2/base/withoutSampling/singleDataset/short/TOURISM_YEARLY/dataset/tourism_yearly_clean.parquet.gz",
+        "CSV_URL": "https://autogluon.s3.amazonaws.com/datasets/timeseries/monash_tourism_monthly/train.csv",
+        "PARQUET_PATH": "/home/h20250169/study/modelTraining/dm_eval_2/base/withoutSampling/singleDataset/short/TOURISM_MONTHLY/dataset/tourism_monthly_clean.parquet.gz",
         "PREDICTION_LENGTH": 4,
         "NUM_SAMPLES": 20,
         "QUANTILE_LEVELS": [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9],
-        "SEASON_LENGTH": 1,
+        "SEASON_LENGTH": 12,
         "RESULTS_DIR": "results",
         "CHECKPOINT_INTERVAL": 500,
         "MAX_MEMORY_GB": 24,

@@ -150,6 +150,7 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-# ./load_chronos_hf.py monash_tourism_yearly \
-#     --parquet tourism_yearly_clean.parquet.gz \
+# chmod +x load_chronos_hf.py
+# ./load_chronos_hf.py monash_tourism_monthly \
+#     --parquet tourism_monthly_clean.parquet.gz \
 #     --show
