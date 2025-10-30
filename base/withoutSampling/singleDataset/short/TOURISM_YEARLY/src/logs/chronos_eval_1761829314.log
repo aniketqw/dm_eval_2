@@ -1,0 +1,44 @@
+2025-10-30 18:31:54 | INFO     | === Chronos Evaluation – generic wrapper (WITH BASELINE NORMALIZATION) ===
+2025-10-30 18:31:54 | INFO     | Configuration: {'CSV_URL': 'https://autogluon.s3.amazonaws.com/datasets/timeseries/monash_tourism_yearly/train.csv', 'PARQUET_PATH': '/home/h20250169/study/modelTraining/dm_eval_2/base/withoutSampling/singleDataset/short/TOURISM_YEARLY/dataset/tourism_yearly_clean.parquet.gz', 'PREDICTION_LENGTH': 4, 'NUM_SAMPLES': 500, 'QUANTILE_LEVELS': [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], 'SEASON_LENGTH': 1, 'RESULTS_DIR': 'results', 'CHECKPOINT_INTERVAL': 500, 'MAX_MEMORY_GB': 24, 'BATCH_SIZE': 1, 'CONTEXT_LENGTH': 512}
+2025-10-30 18:31:54 | INFO     | ✅ Loading data from local Parquet: /home/h20250169/study/modelTraining/dm_eval_2/base/withoutSampling/singleDataset/short/TOURISM_YEARLY/dataset/tourism_yearly_clean.parquet.gz
+2025-10-30 18:31:54 | INFO     | Input dataframe shape : (12757, 3)
+2025-10-30 18:31:54 | INFO     | First 5 rows:
+item_id                 timestamp     target
+T000000 1979-12-31 00:00:00+00:00 25092.2284
+T000000 1980-12-31 00:00:00+00:00 24271.5134
+T000000 1981-12-31 00:00:00+00:00 25828.9883
+T000000 1982-12-31 00:00:00+00:00 27697.5047
+T000000 1983-12-31 00:00:00+00:00 27956.2276
+2025-10-30 18:31:54 | INFO     | Prepared 518 series for inference
+2025-10-30 18:31:54 | INFO     | Loading Chronos model …
+2025-10-30 18:31:56 | INFO     | Will run inference on 518 series ( 500 samples each )
+2025-10-30 18:31:56 | INFO     | Using season_length=1 for Seasonal Naive baseline
+2025-10-30 18:32:08 | INFO     | Series 99 → Model WQL=8.9606, Model MASE=9.6102 | Baseline WQL=9.1371, Baseline MASE=9.4320
+2025-10-30 18:32:08 | INFO     | Progress: 100/518 (19.3%)
+2025-10-30 18:32:19 | INFO     | Series 199 → Model WQL=2.4033, Model MASE=1.8809 | Baseline WQL=2.0696, Baseline MASE=1.3254
+2025-10-30 18:32:19 | INFO     | Progress: 200/518 (38.6%)
+2025-10-30 18:32:30 | INFO     | Series 299 → Model WQL=15.6986, Model MASE=10.0350 | Baseline WQL=16.4283, Baseline MASE=10.0933
+2025-10-30 18:32:30 | INFO     | Progress: 300/518 (57.9%)
+2025-10-30 18:32:41 | INFO     | Series 399 → Model WQL=2.6349, Model MASE=1.7039 | Baseline WQL=5.2833, Baseline MASE=2.4971
+2025-10-30 18:32:41 | INFO     | Progress: 400/518 (77.2%)
+2025-10-30 18:32:52 | INFO     | Series 499 → Model WQL=2.7187, Model MASE=1.6289 | Baseline WQL=4.3622, Baseline MASE=2.4626
+2025-10-30 18:32:52 | INFO     | Checkpoint saved after processing index 500
+2025-10-30 18:32:52 | INFO     | Progress: 500/518 (96.5%)
+2025-10-30 18:32:54 | INFO     | Checkpoint saved after processing index 518
+2025-10-30 18:32:54 | INFO     | ======================================================================
+2025-10-30 18:32:54 | INFO     | === FINAL METRICS ===
+2025-10-30 18:32:54 | INFO     | ======================================================================
+2025-10-30 18:32:54 | INFO     | MODEL (absolute):
+2025-10-30 18:32:54 | INFO     |   WQL  (geometric mean) : 3.622969
+2025-10-30 18:32:54 | INFO     |   MASE (geometric mean) : 2.802765
+2025-10-30 18:32:54 | INFO     | 
+2025-10-30 18:32:54 | INFO     | BASELINE (Seasonal Naive):
+2025-10-30 18:32:54 | INFO     |   WQL  (geometric mean) : 3.724611
+2025-10-30 18:32:54 | INFO     |   MASE (geometric mean) : 2.509134
+2025-10-30 18:32:54 | INFO     | 
+2025-10-30 18:32:54 | INFO     | RELATIVE SCORES (Model/Baseline) - **PAPER METRIC**:
+2025-10-30 18:32:54 | INFO     |   WQL  (relative) : 0.972711
+2025-10-30 18:32:54 | INFO     |   MASE (relative) : 1.117025
+2025-10-30 18:32:54 | INFO     | ======================================================================
+2025-10-30 18:32:54 | INFO     | Results written to results/chronos_results.pkl
+2025-10-30 18:32:54 | INFO     | === Evaluation finished ===
