@@ -278,3 +278,5 @@ if __name__ == "__main__":
         print("🚦  Script execution completed")
         # nohup python3 evaluate_chronos.py  > eval_output.log 2>&1 &
         # kill %1
+
+        # nohup python3 evaluate_chronos.py  > eval_output.log 2>&1 &
